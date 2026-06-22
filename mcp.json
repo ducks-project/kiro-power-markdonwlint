@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "markdownlint": {
+      "command": "npx",
+      "args": ["markdownlint-mcp"]
+    }
+  }
+}
