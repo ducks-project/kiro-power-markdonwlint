@@ -219,6 +219,13 @@ For these cases, provide a diagnosis and suggest corrections, but the user must 
 2. Filesystem config (nearest `.markdownlint.json` / `.yaml` / `.jsonc` discovered from the file's directory)
 3. Runtime config (passed in tool `config` parameter)
 
+## License and support
+
+This power integrates with [@ducks-project/markdownlint-mcpserver] (MIT).
+
+- [Privacy Policy](https://github.com/ducks-project/markdownlint-mcpserver/blob/main/PRIVACY.md)
+- [Support](https://github.com/ducks-project/markdownlint-mcpserver/issues)
+
 ---
 
 **MCP Server:** [`@ducks-project/markdownlint-mcpserver`](https://github.com/ducks-project/markdownlint-mcpserver)
