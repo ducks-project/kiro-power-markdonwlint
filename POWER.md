@@ -10,7 +10,7 @@ author: "Adrien Loyant"
 
 ## Overview
 
-This power provides comprehensive Markdown quality enforcement through the [markdownlint-mcp](https://github.com/ernestgwilsonii/markdownlint-mcp) server. It can analyze, validate, and auto-fix `.md` files against all 52 official [markdownlint](https://github.com/DavidAnson/markdownlint) rules.
+This power provides comprehensive Markdown quality enforcement through the [`@ducks-project/markdownlint-mcpserver`](https://github.com/ducks-project/markdownlint-mcpserver) package, an MCP server built on the [markdownlint](https://github.com/DavidAnson/markdownlint) library. It can analyze, validate, and auto-fix `.md` files against all 52 official markdownlint rules, lint files by path with automatic config discovery, and recursively scan directories or glob patterns.
 
 Beyond technical linting, this power enforces writing best practices: language consistency within documents, fenced code blocks with language identifiers, descriptive alt text on images, and table of contents for long documents.
 
@@ -94,13 +94,20 @@ The project's markdownlint configuration file is the **single source of truth**.
 
 1. Read the target Markdown file
 2. Check whether a markdownlint configuration file exists in the project
-3. Use `lint_markdown` to analyze the file content
+3. Use `lint_markdown` with `filePath` to analyze the file (auto-discovers project config)
 4. Present results grouped by category (formatting, structure, links, etc.)
 5. If auto-fixable violations exist, offer to run `fix_markdown`
 
+### Lint a Directory or Glob Pattern
+
+1. Use `lint_directory` with a `path` (and optional `glob` pattern) to scan multiple files
+2. Review the summary: files scanned, files with issues, total issues
+3. Present per-file results grouped by severity
+4. Offer to fix individual files with `fix_markdown`
+
 ### Auto-fix a Markdown File
 
-1. Use `fix_markdown` on the file content to apply automatic corrections (covers 30 of 52 rules)
+1. Use `fix_markdown` on the file content to apply automatic corrections (covers ~30 of 52 rules)
 2. Compare the output with the original to identify changes
 3. Apply the corrected content to the file
 4. Re-run `lint_markdown` to check for remaining issues (non-fixable rules)
@@ -156,11 +163,11 @@ All images must have descriptive, meaningful alt text — not empty, not generic
 
 **Solutions:**
 
-1. Verify Node.js is installed: `node --version` (requires 16+)
+1. Verify Node.js is installed: `node --version` (requires 18+)
 2. Verify npx is available: `npx --version`
-3. Test manually: `npx markdownlint-mcp`
-4. Check network connectivity (npx needs to download the package on first use)
-5. If behind a proxy, ensure npm proxy settings are configured
+3. Test manually: `npx -y @ducks-project/markdownlint-mcpserver@latest`
+4. If behind a proxy, ensure npm proxy settings are configured
+5. If npx caching issues, clear the cache: `npx --package @ducks-project/markdownlint-mcpserver@latest markdownlint-mcpserver`
 
 ### Rules Don't Match Project Configuration
 
@@ -197,7 +204,7 @@ For these cases, provide a diagnosis and suggest corrections, but the user must 
 
 ## Configuration
 
-**No additional configuration required** — the MCP server works out of the box via npx.
+**No additional configuration required** — the MCP server is fetched automatically via npx on first launch. Only Node.js 18+ is needed.
 
 **Optional project configuration files:**
 
@@ -206,9 +213,15 @@ For these cases, provide a diagnosis and suggest corrections, but the user must 
 - `.markdownlint.yaml` / `.markdownlint.yml` — Rule configuration in YAML format
 - `.markdownlint-cli2.jsonc` — Configuration for markdownlint-cli2
 
+### Configuration Merge Hierarchy (lowest to highest priority)
+
+1. Default config (`{ "default": true, "MD013": false }`)
+2. Filesystem config (nearest `.markdownlint.json` / `.yaml` / `.jsonc` discovered from the file's directory)
+3. Runtime config (passed in tool `config` parameter)
+
 ---
 
-**Package:** `markdownlint-mcp`
-**MCP Server:** markdownlint
+**MCP Server:** [`@ducks-project/markdownlint-mcpserver`](https://github.com/ducks-project/markdownlint-mcpserver)
+**Linting engine:** [markdownlint](https://github.com/DavidAnson/markdownlint)
 **VS Code Extension:** `davidanson.vscode-markdownlint`
 **Rules Reference:** <https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md>

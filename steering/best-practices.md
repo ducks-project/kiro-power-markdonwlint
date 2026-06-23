@@ -97,7 +97,7 @@ For shell commands with their output, use `console`:
 
 ````markdown
 ```console
-$ npm install markdownlint-mcp
+$ npm install @ducks-project/markdownlint-mcpserver
 added 42 packages in 3s
 ```
 ````

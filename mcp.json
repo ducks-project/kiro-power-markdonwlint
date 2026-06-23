@@ -2,7 +2,7 @@
   "mcpServers": {
     "markdownlint": {
       "command": "npx",
-      "args": ["markdownlint-mcp"]
+      "args": ["-y", "@ducks-project/markdownlint-mcpserver@latest"]
     }
   }
 }
